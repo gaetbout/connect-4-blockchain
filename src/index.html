@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="./assets/favicon.ico" />
+    <link rel="apple-touch-icon" href="./assets/favicon.ico" />
+    <title>Welcome to NEAR</title>
+    <link rel="stylesheet" href="global.css" />
+  </head>
+  <body>
+    <main id="signed-out-flow" style="display: none">
+      <h1>Welcome to NEAR!</h1>
+      <p>
+        To make use of the NEAR blockchain, you need to sign in. The button
+        below will sign you in using NEAR Wallet.
+      </p>
+      <p>
+        By default, when your app runs in "development" mode, it connects to a
+        test network ("testnet") wallet. This works just like the main network
+        ("mainnet") wallet, but the NEAR Tokens on testnet aren't convertible to
+        other currencies – they're just for testing!
+      </p>
+      <p>Go ahead and click the button below to try it out:</p>
+      <p style="text-align: center; margin-top: 2.5em">
+        <button id="sign-in-button">Sign in</button>
+      </p>
+    </main>
+
+    <div id="signed-in-flow" style="display: none">
+      <button class="link" style="float: right" id="sign-out-button">
+        Sign out
+        <span data-behavior="account-id"></span>
+      </button>
+      <br/>
+      <button id="createGameButton">
+        Create game
+      </button>
+      <label id="inGame"></label>
+      
+      <div style='margin-top:100px;
+      width: 1000px; 
+      display: inline-flex;
+      height: 50px;
+       display:block;'> 
+        <button class="playButton" column='1' style="margin-left:7px; width:50px">1</button>
+        <button class="playButton" column='2' style="margin-left:13px; width:50px">2</button>
+        <button class="playButton" column='3' style="margin-left:13px; width:50px">3</button>
+        <button class="playButton" column='4' style="margin-left:13px; width:50px">4</button>
+        <button class="playButton" column='5' style="margin-left:13px; width:50px">5</button>
+        <button class="playButton" column='6' style="margin-left:13px; width:50px">6</button>
+        <button class="playButton" column='7' style="margin-left:13px; width:50px">7</button>
+      </div>
+      <div id="boardDiv" style="font-size: 50px;"></div>
+      </main>
+    </div>
+
+    <aside data-behavior="notification" style="display: none">
+      <a target="_blank" href="https://explorer.testnet.near.org/accounts/"></a>
+      called method: 'setGreeting' in contract:
+      <a target="_blank" href="https://explorer.testnet.near.org/accounts/"></a>
+      <footer>
+        <div>✔ Succeeded</div>
+        <div>Just now</div>
+      </footer>
+    </aside>
+
+    <script src="./index.js"></script>
+  </body>
+</html>

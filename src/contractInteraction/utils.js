@@ -9,6 +9,6 @@ export async function initContract() {
     window.accountId = window.walletConnection.getAccountId()
     window.contract = await new Contract(window.walletConnection.account(), nearConfig.contractName, {
         viewMethods: ['isInGame', 'getGameCoordinates'],
-        changeMethods: ['createGame', 'playAtColumn'],
+        changeMethods: ['createGame', 'playAtColumn', 'deleteGame'],
     })
 }

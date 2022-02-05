@@ -3,7 +3,9 @@ import getConfig from '../config'
 const nearConfig = getConfig(process.env.NODE_ENV || 'development')
 
 const createGameButton = document.querySelector('#createGameButton')
+const deleteGameButton = document.querySelector('#deleteGameButton')
 createGameButton.onclick = createGame
+deleteGameButton.onclick = deleteGame
 const isInGameLabel = document.querySelector('#inGame')
 const boardDiv = document.querySelector('#boardDiv')
 const playButton = document.querySelectorAll('.playButton')
@@ -25,15 +27,32 @@ async function createGame() {
     }
 }
 
+async function deleteGame() {
+    this.disabled = true
+    try {
+        await window.contract.deleteGame({ accountId: window.accountId })
+    } catch (e) {
+        alert(
+            e
+        )
+        throw e
+    } finally {
+        this.disabled = false
+        fetchIsInGame()
+    }
+}
+
 export async function fetchIsInGame() {
-    createGameButton.disabled = false;
-    let isInGame = await contract.isInGame({ player: window.accountId })
+    createGameButton.disabled = true
+    let isInGame = await contract.isInGame({ accountId: window.accountId })
     if (isInGame) {
         isInGameLabel.innerHTML = "You are in game"
         isInGameLabel.disabled = true
         createGameButton.disabled = true
+        playButton.forEach(e => e.disabled = false)
         fetchBoard()
     } else {
+        playButton.forEach(e => e.disabled = true)
         createGameButton.disabled = false
         isInGameLabel.innerHTML = "Press the button to start a new game"
     }
@@ -43,24 +62,24 @@ let playerSymbol = '🔴'
 let randomSymbol = '🟡'
 let emptySymbol = '⚫' // ou bien ○
 async function fetchBoard() {
-    console.log('Fetching board')
-    let board = await contract.getGameCoordinates({ player: window.accountId })
+    console.log(`Fetching board for: ${window.accountId}`)
+    let board = await window.contract.getGameCoordinates({ accountId: window.accountId })
+    let boardParsed = JSON.parse(board)
     console.log(`Board: ${board}}`)
-
-    /*displayBoard(): string {
-        // TODO faut pas return le board mais un array de coordonées et le render coté client
-        let board = ''
-        for (let row = 0; row < 7; row++) {
-            for (let col = 0; col < 7; col++) {
-                board += this.emptySymbol;
+    let playerCoords= boardParsed.playerCoords
+    console.log(playerCoords)
+    let boardStr = ''
+    for (let row = 7; row > 0; row--) {
+        for (let col = 1; col < 8; col++) {
+            if(playerCoords.some((coords) => coords[0] == col && coords[1] == row)){
+                boardStr += playerSymbol;
+            }else{
+                boardStr += emptySymbol;
             }
-            board += '<br/>';
         }
-        return board
-    }*/
-    /*
-    let board = await contract.getBoard({ player: window.accountId })
-    boardDiv.innerHTML = board*/
+        boardStr += '<br/>';
+    }
+    boardDiv.innerHTML = boardStr;
 }
 
 async function playAtColumn() {

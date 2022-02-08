@@ -21,6 +21,7 @@ export function deleteGame(): void {
 }
 
 export function isInGame(accountId: string): bool {
+  logging.log('isInGame')
   return storage.contains(accountId)
 }
 

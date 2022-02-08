@@ -1,11 +1,10 @@
-import { connect, Contract, keyStores, WalletConnection } from 'near-api-js'
-import { initContract } from './utils'
+import { initContract } from './contract'
 
 import getConfig from '../config'
 const { networkId } = getConfig(process.env.NODE_ENV || 'development')
 
 let mainFlow = require('../index').mainFlow
-let nearConfig = require('./utils').nearConfig
+let nearConfig = require('./contract').nearConfig
 
 document.querySelector('#sign-in-button').onclick = login
 document.querySelector('#sign-out-button').onclick = logout

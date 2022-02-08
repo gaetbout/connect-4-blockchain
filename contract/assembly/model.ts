@@ -12,9 +12,16 @@ export class Game {
         this.aiMove = new PersistentVector<String>(`${player}ai4`)
     }
     delete(): void {
-        for (let i = 0; i <= this.playerMove.length; i++) {
-            this.playerMove.pop()
+        this._empty(this.playerMove)
+        this._empty(this.aiMove)
+    }
+    
+    _empty(vectorToEmpty: PersistentVector<String>): void {
+        if(vectorToEmpty.isEmpty){
+            return
         }
+        vectorToEmpty.pop()
+        this._empty(vectorToEmpty)
     }
     isPlayerPlaying(player: string): boolean {
         return this.player == player

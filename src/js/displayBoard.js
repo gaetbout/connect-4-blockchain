@@ -7,19 +7,11 @@ const boardDiv = document.querySelector('#boardDiv')
 
 export function displayBoard(aJsonObject) {
     let playerCoords = aJsonObject.playerCoords
-    let aiCoords = aJsonObject.aiCoordinates
+    let aiCoords = aJsonObject.aiCoords
     let boardStr = ''
-    // Tu peux refaire cet algo pour d'ab build les cord puis display
     for (let row = 7; row > 0; row--) {
         for (let col = 1; col < 8; col++) {
-            if (playerCoords.some((coords) => coords[0] == col && coords[1] == row)) {
-                boardStr += playerSymbol;
-            } else if (aiCoords.some((coords) => coords[0] == col && coords[1] == row)) {
-                boardStr += randomSymbol;
-            }
-            else {
-                boardStr += emptySymbol;
-            }
+            boardStr += getCorrectSymbol(row, col, playerCoords, aiCoords)
         }
         boardStr += '<br/>';
     }
@@ -28,4 +20,15 @@ export function displayBoard(aJsonObject) {
 
 export function emptyBoard() {
     boardDiv.innerHTML = '';
-  }
+}
+
+function getCorrectSymbol(row, col, playerCoords, aiCoords) {
+    if (playerCoords.some((coords) => coords[0] == col && coords[1] == row)) {
+        return playerSymbol;
+    }
+    if (aiCoords.some((coords) => coords[0] == col && coords[1] == row)) {
+        return randomSymbol;
+    }
+
+    return emptySymbol;
+}

@@ -4,12 +4,13 @@ import { login, logout } from './js/login'
 import { emptyBoard } from './js/displayBoard' 
 import { isInGame, createGameContract, deleteGameContract, playAtColumnContract, fetchBoardAndDisplayBoard } from './js/contract'
 
+document.querySelector('#sign-in-button').onclick = login
+document.querySelector('#sign-out-button').onclick = logout
 const createGameButton = document.querySelector('#createGameButton')
 const deleteGameButton = document.querySelector('#deleteGameButton')
 createGameButton.onclick = createGame
 deleteGameButton.onclick = deleteGame
 const isInGameLabel = document.querySelector('#inGame')
-const boardDiv = document.querySelector('#boardDiv')
 const playButton = document.querySelectorAll('.playButton')
 playButton.forEach(e => {
     e.onclick = playAtColumn

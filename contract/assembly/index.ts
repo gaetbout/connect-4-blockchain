@@ -21,12 +21,12 @@ export function deleteGame(): void {
 }
 
 export function isInGame(accountId: string): bool {
-  logging.log('isInGame')
+  // logging.log('isInGame')
   return storage.contains(accountId)
 }
 
 export function getGameCoordinates(accountId: string): string {
-  logging.log('getGameCoordinates')
+//   logging.log('getGameCoordinates')
   assert(isInGame(accountId), `Player ${accountId} isn't in a game`)
   return _getGame(accountId).getGameCoordinates()
 }

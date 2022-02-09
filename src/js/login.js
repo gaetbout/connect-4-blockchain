@@ -6,9 +6,6 @@ const { networkId } = getConfig(process.env.NODE_ENV || 'development')
 let mainFlow = require('../index').mainFlow
 let nearConfig = require('./contract').nearConfig
 
-document.querySelector('#sign-in-button').onclick = login
-document.querySelector('#sign-out-button').onclick = logout
-
 export function logout() {
   window.walletConnection.signOut()
   window.location.replace(window.location.origin + window.location.pathname)
@@ -36,7 +33,7 @@ function signedInFlow() {
   document.querySelectorAll('[data-behavior=account-id]').forEach(el => {
     el.innerText = window.accountId
   })
-
+  
   const accountLink = document.querySelector('[data-behavior=notification] a:nth-of-type(1)')
   accountLink.href = accountLink.href + window.accountId
   accountLink.innerText = '@' + window.accountId

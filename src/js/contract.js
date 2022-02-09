@@ -2,7 +2,7 @@ import getConfig from '../config'
 import { connect, Contract, keyStores, WalletConnection } from 'near-api-js'
 import { displayBoard } from './displayBoard'
 
-const nearConfig = getConfig(process.env.NODE_ENV || 'development')
+export const nearConfig = getConfig(process.env.NODE_ENV || 'development')
 
 export async function initContract() {
     const near = await connect(Object.assign({ deps: { keyStore: new keyStores.BrowserLocalStorageKeyStore() } }, nearConfig))

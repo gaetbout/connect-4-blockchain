@@ -41,7 +41,7 @@ export class Game {
 
     getGameCoordinates(): string {
         logging.log(`length: ${this.playerMove.length}`)
-        return `{"playerCoords":${this._displayMoves(this.playerMove)}, "aiCoordinates":${this._displayMoves(this.aiMove)}}`
+        return `{"playerCoords":${this._displayMoves(this.playerMove)}, "aiCoords":${this._displayMoves(this.aiMove)}}`
     }
 
     _numberOfMoveFor(column: i8, aVector: PersistentVector<String>): i8 {

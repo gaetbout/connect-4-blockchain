@@ -12,6 +12,7 @@ createGameButton.onclick = createGame
 deleteGameButton.onclick = deleteGame
 const isInGameLabel = document.querySelector('#inGame')
 const playButton = document.querySelectorAll('.playButton')
+
 playButton.forEach(e => {
     e.onclick = playAtColumn
 });
@@ -48,7 +49,7 @@ async function deleteGame() {
 async function playAtColumn(){
   let column = this.getAttribute('column')
   setDisabledForAllColumnButtonTo(true)
-  playAtColumnContract(column)
+  await playAtColumnContract(column)
   fetchIsInGame()
 }
 

@@ -20,7 +20,7 @@ export async function createGameContract() {
 }
 
 export async function deleteGameContract() {
-    await window.contract.deleteGame({ accountId: window.accountId })
+    await window.contract.deleteGame({ accountId: window.accountId },  300000000000000)
 }
 
 export async function isInGame() {
@@ -34,6 +34,6 @@ export async function fetchBoardAndDisplayBoard() {
 }
 
 export async function playAtColumnContract(column) {
-    await window.contract.playAtColumn({ columnString: column, accountId: window.accountId })
+    await window.contract.playAtColumn({columnString: column, accountId: window.accountId }, 300000000000000)
 
 }

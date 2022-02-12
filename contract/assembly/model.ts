@@ -1,28 +1,43 @@
-import { PersistentVector, logging } from 'near-sdk-as'
+import { PersistentVector, logging, RNG  } from 'near-sdk-as'
 
 @nearBindgen
 export class Game {
     player: string
     playerMove: PersistentVector<String>
     aiMove: PersistentVector<String>
+    arrayOfPawns: PersistentVector<i8>
 
     constructor(player: string) {
         this.player = player
-        this.playerMove = new PersistentVector<String>(`${player}pl4`)
-        this.aiMove = new PersistentVector<String>(`${player}ai4`)
+        this.playerMove = new PersistentVector<String>(`${player}pl5`)
+        this.aiMove = new PersistentVector<String>(`${player}ai5`)
+        this.arrayOfPawns = new PersistentVector<i8>(`${player}piles5`)
+        for (let i = 0; i < 7; i++) {
+            this.arrayOfPawns.push(0)
+        }
     }
     delete(): void {
+        this._emptyI8(this.arrayOfPawns)
         this._empty(this.playerMove)
         this._empty(this.aiMove)
     }
-    
+
     _empty(vectorToEmpty: PersistentVector<String>): void {
-        if(vectorToEmpty.isEmpty){
+        if (vectorToEmpty.isEmpty) {
             return
         }
         vectorToEmpty.pop()
         this._empty(vectorToEmpty)
     }
+
+    _emptyI8(vectorToEmpty: PersistentVector<i8>): void {
+        if (vectorToEmpty.isEmpty) {
+            return
+        }
+        vectorToEmpty.pop()
+        this._emptyI8(vectorToEmpty)
+    }
+
     isPlayerPlaying(player: string): boolean {
         return this.player == player
     }
@@ -32,16 +47,41 @@ export class Game {
     }
 
     playAtColumn(column: i8): void {
-        let row = this._numberOfMoveFor(column, this.playerMove)
-        row += this._numberOfMoveFor(column, this.aiMove) + 1
-        //TODO ??? si l'ia joue dehors 
-        this.playerMove.push(`${column},${row}`)
-        logging.log(`playAtColumn: ${this.getGameCoordinates()}`)
+        this._playAtColumn(column, this.playerMove)
+        let possibleMoves = this._getPossibleMoves()
+        const rng = new RNG<i8>(1, possibleMoves.length);
+        let  rngNext = rng.next()
+        logging.log(rngNext)
+        let randomColumn = i8(possibleMoves[rngNext])
+        logging.log(randomColumn)
+        this._playAtColumn(randomColumn, this.aiMove)
     }
 
     getGameCoordinates(): string {
-        logging.log(`length: ${this.playerMove.length}`)
+        // logging.log(`length: ${this.playerMove.length}`)
         return `{"playerCoords":${this._displayMoves(this.playerMove)}, "aiCoords":${this._displayMoves(this.aiMove)}}`
+    }
+
+    _playAtColumn(column: i8, vector: PersistentVector<String>): void {
+        let row = this._numberOfMoveFor(column, this.playerMove)
+        row += this._numberOfMoveFor(column, this.aiMove) + 1
+        vector.push(`${column},${row}`)
+        this.arrayOfPawns[column]++
+    }
+
+    _getPossibleMoves(): Array<i32> {
+        let array = new Array<i32>()
+        for (let idx = 0; idx < this.arrayOfPawns.length; idx++) {
+            if (this.arrayOfPawns[idx] < 7) {
+                // logging.log(`Pushing: ${idx}`)
+                array.push(idx)
+            }
+        }
+        return array
+    }
+
+    _isBoardFull(): boolean {
+        return (this.playerMove.length + this.aiMove.length) == 49 // 7*7
     }
 
     _numberOfMoveFor(column: i8, aVector: PersistentVector<String>): i8 {

@@ -47,10 +47,13 @@ export class Game {
     }
 
     playAtColumn(column: i8): void {
+        logging.log(`1`)
         this._playAtColumn(column, this.playerMove)
+        logging.log(`2`)
         let possibleMoves = this._getPossibleMoves()
+        logging.log(`3`)
         const rng = new RNG<i8>(1, possibleMoves.length);
-        let  rngNext = rng.next()
+        let  rngNext = abs(rng.next())
         logging.log(rngNext)
         let randomColumn = i8(possibleMoves[rngNext])
         logging.log(randomColumn)
@@ -63,10 +66,14 @@ export class Game {
     }
 
     _playAtColumn(column: i8, vector: PersistentVector<String>): void {
+        logging.log(`1a`)
         let row = this._numberOfMoveFor(column, this.playerMove)
+        logging.log(`2a`)
         row += this._numberOfMoveFor(column, this.aiMove) + 1
+        logging.log(`3a`)
         vector.push(`${column},${row}`)
-        this.arrayOfPawns[column]++
+        logging.log(`4a`)
+        this.arrayOfPawns[column-1]++
     }
 
     _getPossibleMoves(): Array<i32> {

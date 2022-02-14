@@ -1,4 +1,4 @@
-import { PersistentVector, logging, RNG  } from 'near-sdk-as'
+import { PersistentVector, logging, RNG } from 'near-sdk-as'
 
 @nearBindgen
 export class Game {
@@ -47,11 +47,12 @@ export class Game {
     }
 
     playAtColumn(column: i8): void {
-        // D'ab tu get possible moves, check si peux jouer, pis tu joue avec joueur pis tu add le  coup du joueur dans possible moves, pis joue avec IA
-        this._playAtColumn(column, this.playerMove)
+        assert(!this._isBoardFull(), `There is no more tokens in to play with`)
         let possibleMoves = this._getPossibleMoves()
+        assert(possibleMoves.includes(column), `The column ${column} is already full try another one`)
+        this._playAtColumn(column, this.playerMove)
         const rng = new RNG<i8>(1, possibleMoves.length);
-        let  rngNext = abs(rng.next())
+        let rngNext = abs(rng.next())
         logging.log(rngNext)
         let randomColumn = i8(possibleMoves[rngNext])
         logging.log(randomColumn)
@@ -60,9 +61,16 @@ export class Game {
 
     getGameCoordinates(): string {
         let possibleMoves = this._getPossibleMoves()
-        return `{"coordinates":{"playerCoords":${this._displayMoves(this.playerMove)}, "aiCoords":${this._displayMoves(this.aiMove)}}, "possibleMoves":[${possibleMoves.toString()}]}`
+        let gameState = this._getGameState()
+        return `{"gameState":"${gameState}","coordinates":{"playerCoords":${this._displayMoves(this.playerMove)}, "aiCoords":${this._displayMoves(this.aiMove)}}, "possibleMoves":[${possibleMoves.toString()}]}`
     }
 
+    _getGameState(): String {
+        if (this._isBoardFull()) {
+            return "BOARD_FULL"
+        }
+        return "PLAYING"
+    }
     _playAtColumn(column: i8, vector: PersistentVector<String>): void {
         let row = this._numberOfMoveFor(column, this.playerMove)
         row += this._numberOfMoveFor(column, this.aiMove)
@@ -82,7 +90,7 @@ export class Game {
     }
 
     _isBoardFull(): boolean {
-        return (this.playerMove.length + this.aiMove.length) == 49 // 7*7
+        return (this.playerMove.length + this.aiMove.length) >= 42 // 21 tokens *2
     }
 
     _numberOfMoveFor(column: i8, aVector: PersistentVector<String>): i8 {

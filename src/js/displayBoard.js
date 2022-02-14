@@ -7,17 +7,21 @@ const boardDiv = document.querySelector('#boardDiv')
 const playButton = document.querySelectorAll('.playButton')
 
 export function displayBoard(aJsonObject) {
+    let boardStr = ''
+    
     let playerCoords = aJsonObject.coordinates.playerCoords
     let aiCoords = aJsonObject.coordinates.aiCoords
     _disableWrongButtons(aJsonObject.possibleMoves)
-    let boardStr = ''
     for (let row = 6; row >= 0; row--) {
         for (let col = 0; col < 7; col++) {
             boardStr += _getCorrectSymbol(row, col, playerCoords, aiCoords)
         }
         boardStr += '<br/>';
     }
-    
+    if(aJsonObject.gameState == "BOARD_FULL"){
+        boardStr = 'Board full <br/> No more token will be accepted <br/>' + boardStr;
+        _disableWrongButtons([])
+    }
     boardDiv.innerHTML = boardStr;
 }
 

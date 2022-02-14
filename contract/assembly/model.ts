@@ -47,11 +47,9 @@ export class Game {
     }
 
     playAtColumn(column: i8): void {
-        logging.log(`1`)
+        // D'ab tu get possible moves, check si peux jouer, pis tu joue avec joueur pis tu add le  coup du joueur dans possible moves, pis joue avec IA
         this._playAtColumn(column, this.playerMove)
-        logging.log(`2`)
         let possibleMoves = this._getPossibleMoves()
-        logging.log(`3`)
         const rng = new RNG<i8>(1, possibleMoves.length);
         let  rngNext = abs(rng.next())
         logging.log(rngNext)
@@ -61,19 +59,15 @@ export class Game {
     }
 
     getGameCoordinates(): string {
-        // logging.log(`length: ${this.playerMove.length}`)
-        return `{"playerCoords":${this._displayMoves(this.playerMove)}, "aiCoords":${this._displayMoves(this.aiMove)}}`
+        let possibleMoves = this._getPossibleMoves()
+        return `{"coordinates":{"playerCoords":${this._displayMoves(this.playerMove)}, "aiCoords":${this._displayMoves(this.aiMove)}}, "possibleMoves":[${possibleMoves.toString()}]}`
     }
 
     _playAtColumn(column: i8, vector: PersistentVector<String>): void {
-        logging.log(`1a`)
         let row = this._numberOfMoveFor(column, this.playerMove)
-        logging.log(`2a`)
-        row += this._numberOfMoveFor(column, this.aiMove) + 1
-        logging.log(`3a`)
+        row += this._numberOfMoveFor(column, this.aiMove)
         vector.push(`${column},${row}`)
-        logging.log(`4a`)
-        this.arrayOfPawns[column-1]++
+        this.arrayOfPawns[column]++
     }
 
     _getPossibleMoves(): Array<i32> {

@@ -16,6 +16,7 @@ export class Game {
             this.arrayOfPawns.push(0)
         }
     }
+
     delete(): void {
         this._emptyI8(this.arrayOfPawns)
         this._empty(this.playerMove)

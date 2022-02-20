@@ -30,7 +30,6 @@ describe('getGame for non existing game', () => {
   })
 })
 
-
 describe('deleteGame', () => {
   it('should delete the game of the user', () => {
     createGame()
@@ -39,7 +38,6 @@ describe('deleteGame', () => {
       storage.get<Game>(Context.sender)).toBeNull()
   })
 })
-
 
 describe('isInGame', () => {
   it('check if a user is in game', () => {
@@ -53,10 +51,9 @@ describe('isInGame not in game', () => {
     expect(isInGame(Context.sender)).toBeFalsy()
   })
 })
-describe('getGameCoordinates on empty game', () => {
-  it('should return an empty json with gameState, coordinates and possibleMoves', () => {
-    createGame()
-    let json = `{"gameState":"PLAYING","coordinates":{"playerCoords":[], "aiCoords":[]}, "possibleMoves":[0,1,2,3,4,5,6]}`
-    expect(getGame(Context.sender).getGameCoordinates()).toBe(json)
+
+describe('getGameCoordinates for non existing game', () => {
+  it('getGameCoordinates when no game created should trigger an assertion to fail', () => {
+    expect(() => { getGameCoordinates(Context.sender) }).toThrow(`Player ${Context.sender} isn't in a game`)
   })
 })

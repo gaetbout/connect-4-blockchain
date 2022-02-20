@@ -1,4 +1,4 @@
-import { PersistentVector, logging, RNG } from 'near-sdk-as'
+import { PersistentVector, RNG } from 'near-sdk-as'
 
 @nearBindgen
 export class Game {
@@ -9,9 +9,9 @@ export class Game {
 
     constructor(player: string) {
         this.player = player
-        this.playerMove = new PersistentVector<String>(`${player}pl5`)
-        this.aiMove = new PersistentVector<String>(`${player}ai5`)
-        this.arrayOfPawns = new PersistentVector<i8>(`${player}piles5`)
+        this.playerMove = new PersistentVector<String>(`${player}pl`)
+        this.aiMove = new PersistentVector<String>(`${player}ai`)
+        this.arrayOfPawns = new PersistentVector<i8>(`${player}piles`)
         for (let i = 0; i < 7; i++) {
             this.arrayOfPawns.push(0)
         }
@@ -23,30 +23,6 @@ export class Game {
         this._empty(this.aiMove)
     }
 
-    _empty(vectorToEmpty: PersistentVector<String>): void {
-        if (vectorToEmpty.isEmpty) {
-            return
-        }
-        vectorToEmpty.pop()
-        this._empty(vectorToEmpty)
-    }
-
-    _emptyI8(vectorToEmpty: PersistentVector<i8>): void {
-        if (vectorToEmpty.isEmpty) {
-            return
-        }
-        vectorToEmpty.pop()
-        this._emptyI8(vectorToEmpty)
-    }
-
-    isPlayerPlaying(player: string): boolean {
-        return this.player == player
-    }
-
-    name(): string {
-        return `${this.player}`
-    }
-
     playAtColumn(column: i8): void {
         assert(!this._isBoardFull(), `There is no more tokens in to play with`)
         let possibleMoves = this._getPossibleMoves()
@@ -54,9 +30,7 @@ export class Game {
         this._playAtColumn(column, this.playerMove)
         const rng = new RNG<i8>(1, possibleMoves.length);
         let rngNext = abs(rng.next())
-        logging.log(rngNext)
         let randomColumn = i8(possibleMoves[rngNext])
-        logging.log(randomColumn)
         this._playAtColumn(randomColumn, this.aiMove)
     }
 
@@ -111,4 +85,21 @@ export class Game {
         }
         return '[' + (str.substring(0, str.length - 1)) + ']'
     }
+    
+    _empty(vectorToEmpty: PersistentVector<String>): void {
+        if (vectorToEmpty.isEmpty) {
+            return
+        }
+        vectorToEmpty.pop()
+        this._empty(vectorToEmpty)
+    }
+
+    _emptyI8(vectorToEmpty: PersistentVector<i8>): void {
+        if (vectorToEmpty.isEmpty) {
+            return
+        }
+        vectorToEmpty.pop()
+        this._emptyI8(vectorToEmpty)
+    }
+
 }

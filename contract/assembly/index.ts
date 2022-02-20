@@ -1,4 +1,4 @@
-import { Context, logging, storage } from 'near-sdk-as'
+import { Context, storage } from 'near-sdk-as'
 import { Game } from './model'
 
 

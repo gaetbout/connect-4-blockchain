@@ -1,4 +1,4 @@
-const CONTRACT_NAME = process.env.CONTRACT_NAME ||'power4'
+const CONTRACT_NAME = process.env.CONTRACT_NAME ||'power4.gaetbout.testnet'
 
 function getConfig(env) {
   switch (env) {

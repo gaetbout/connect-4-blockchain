@@ -1,5 +1,3 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-# Developer note: near.gitignore will be renamed to .gitignore upon project creation
 # dependencies
 /node_modules
 /contract/node_modules

@@ -11,7 +11,7 @@ export class Game {
         this.player = player
         this.playerMove = new PersistentVector<String>(`${player}pl`)
         this.aiMove = new PersistentVector<String>(`${player}ai`)
-        this.arrayOfPawns = new PersistentVector<i8>(`${player}piles`)
+        this.arrayOfPawns = new PersistentVector<i8>(`${player}pawns`)
         for (let i = 0; i < 7; i++) {
             this.arrayOfPawns.push(0)
         }
@@ -47,8 +47,7 @@ export class Game {
         return "PLAYING"
     }
     _playAtColumn(column: i8, vector: PersistentVector<String>): void {
-        let row = this._numberOfMoveFor(column, this.playerMove)
-        row += this._numberOfMoveFor(column, this.aiMove)
+        let row = this._getPossibleRow(column)
         vector.push(`${column},${row}`)
         this.arrayOfPawns[column]++
     }
@@ -57,7 +56,6 @@ export class Game {
         let array = new Array<i32>()
         for (let idx = 0; idx < this.arrayOfPawns.length; idx++) {
             if (this.arrayOfPawns[idx] < 7) {
-                // logging.log(`Pushing: ${idx}`)
                 array.push(idx)
             }
         }
@@ -66,6 +64,10 @@ export class Game {
 
     _isBoardFull(): boolean {
         return (this.playerMove.length + this.aiMove.length) >= 42 // 21 tokens *2
+    }
+    
+    _getPossibleRow(column: i8): i8 {
+        return this._numberOfMoveFor(column, this.playerMove) + this._numberOfMoveFor(column, this.aiMove)
     }
 
     _numberOfMoveFor(column: i8, aVector: PersistentVector<String>): i8 {
@@ -85,7 +87,7 @@ export class Game {
         }
         return '[' + (str.substring(0, str.length - 1)) + ']'
     }
-    
+
     _empty(vectorToEmpty: PersistentVector<String>): void {
         if (vectorToEmpty.isEmpty) {
             return

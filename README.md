@@ -1,12 +1,8 @@
-power4
-==================
-
-This app was initialized with [create-near-app]
-
-
+# power4
 Quick Start
 ===========
 
+This app was initialized with [create-near-app]
 To run this project locally:
 
 1. Prerequisites: Make sure you've installed [Node.js] ≥ 12

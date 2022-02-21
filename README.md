@@ -1,3 +1,7 @@
+Connect 4
+===========
+![Connect 4 image](https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.thewarehouse.co.nz%2Fp%2Fconnect-4-classic-grid-game%2FR1633118.html&psig=AOvVaw3wZ31-CbCp9twBqUIlrOcy&ust=1645553134203000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCJDu66OxkfYCFQAAAAAdAAAAABAD)
+
 Quick Start
 ===========
 

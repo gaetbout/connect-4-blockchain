@@ -1,6 +1,16 @@
 Connect 4
 ===========
+This idea is based on the game Connect 4
 ![Connect 4 image](https://github.com/gaetbout/connect-4-blockchain/blob/main/src/assets/connect4.png)
+
+You just have to create a game and you can start playing!
+It is a single player game, the opponent will play randomly.
+You are limited to 21 tokens to play with (so 42 tokens in total)
+you cannot put more than 7 token on the same column.
+If you want to re-do a game just delete the current game and create a new game.
+
+The purpose of this project was mainly to see  the basics of the NEAR ecosystem and language!
+
 
 Quick Start
 ===========

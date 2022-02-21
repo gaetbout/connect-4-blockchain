@@ -1,4 +1,3 @@
-# power4
 Quick Start
 ===========
 
@@ -12,22 +11,13 @@ To run this project locally:
 
 Now you'll have a local development environment backed by the NEAR TestNet!
 
-Go ahead and play with the app and the code. As you make code changes, the app will automatically reload.
-
-
 Exploring The Code
 ==================
 
-1. The "backend" code lives in the `/contract` folder. See the README there for
-   more info.
-2. The frontend code lives in the `/src` folder. `/src/index.html` is a great
-   place to start exploring. Note that it loads in `/src/index.js`, where you
-   can learn how the frontend connects to the NEAR blockchain.
+1. The "backend" code lives in the `/contract` folder.
+2. The frontend code lives in the `/src` folder.
 3. Tests: there are different kinds of tests for the frontend and the smart
-   contract. See `contract/README` for info about how it's tested. The frontend
-   code gets tested with [jest]. You can run both of these at once with `yarn
-   run test`.
-
+   contract.
 
 Deploy
 ======
